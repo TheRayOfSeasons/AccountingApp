@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Events
     public static Button
         debitButton,
         creditButton;
+
+    public static Stage stage;
 
     public static void wow()
     {
@@ -91,5 +94,24 @@ public class Events
     public static void ToggleRemoveCreditButton (boolean toggle)
     {
         creditButton.setDisable(!toggle);
+    }
+
+    public static void InitializeStandardMainVBOX (VBox layout)
+    {
+        layout = new VBox(20);
+        layout.setPadding(new Insets(10, 10, 10, 10));
+    }
+
+    public static void InitializeStandardGridPane(GridPane gridPane)
+    {
+        gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(8);
+        gridPane.setHgap(10);
+    }
+
+    public static void SwitchSceneTo (Scene scene)
+    {
+        stage.setScene(scene);
     }
 }

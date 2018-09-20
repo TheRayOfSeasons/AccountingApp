@@ -1,13 +1,11 @@
 package Java;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application
 {
     Stage stage;
-    Scenes scenes;
 
     public static void main(String[] args)
     {
@@ -17,9 +15,9 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        scenes = new Scenes();
+        Events.stage = primaryStage;
         primaryStage.setTitle("Cash Register");
-        primaryStage.setScene(scenes.MainMenu());
+        primaryStage.setScene(Scenes.ORLayout());
         primaryStage.show();
     }
 }
