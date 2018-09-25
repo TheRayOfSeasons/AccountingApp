@@ -1,8 +1,11 @@
 package Pages;
 
 import Java.Events;
+import Java.FillForm;
+import Java.Scenes;
 import Objects.Credit;
 import Objects.Debit;
+import Objects.FieldHolder;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -68,6 +71,10 @@ public class CashReceiptsRegister
         debugButton.setText("Debug");
         debugButton.setOnAction(e -> Debug());
 
+        Button backButton = new Button();
+        backButton.setText("Back");
+        backButton.setOnAction(e -> Events.SwitchSceneTo(Scenes.ORLayout()));
+
         //Assemble Scene
         AssembleScene();
 
@@ -75,7 +82,7 @@ public class CashReceiptsRegister
         InitializeDebitsAndCredits();
 
         //Packing up
-        mainLayout.getChildren().addAll(gridLayerTop, gridLayerMid, debugButton);
+        mainLayout.getChildren().addAll(gridLayerTop, gridLayerMid, debugButton, backButton);
         Scene scene = new Scene(mainLayout, 750, 450);
         return scene;
     }
@@ -86,6 +93,10 @@ public class CashReceiptsRegister
         System.out.println("-------------------------------");
         System.out.println("Particular: " + particularField.getText());
         System.out.println("Reference: " + referenceField.getText());
+
+        FillForm.AddRegisterFields(new FieldHolder("Particular", particularField.getText()));
+        FillForm.AddRegisterFields(new FieldHolder("Reference", referenceField.getText()));
+        FillForm.PrintRecieptA();
 
         int x = 1;
         System.out.println("\n-----Debits: ");

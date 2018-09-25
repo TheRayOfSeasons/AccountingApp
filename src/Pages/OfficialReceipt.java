@@ -1,7 +1,9 @@
 package Pages;
 
 import Java.Events;
+import Java.FillForm;
 import Java.Scenes;
+import Objects.FieldHolder;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class OrR
+public class OfficialReceipt
 {
     private Label
             payeeText,
@@ -19,6 +21,7 @@ public class OrR
             priorityNumText,
             tinText,
             accountNumText,
+            amountText,
             extraText;
 
     private TextField
@@ -27,7 +30,8 @@ public class OrR
             bussinessStyleField,
             priorityNumField,
             tinField,
-            accountNumField;
+            accountNumField,
+            amountField;
 
     private GridPane
         gridLayerTop;
@@ -35,7 +39,7 @@ public class OrR
     private VBox
         mainLayout;
 
-    public OrR () {}
+    public OfficialReceipt() {}
 
     public Scene GetScene ()
     {
@@ -44,11 +48,27 @@ public class OrR
 
         Button nextScene = new Button();
         nextScene.setText("Next");
-        nextScene.setOnAction(e -> Events.SwitchSceneTo(Scenes.CashReceiptsRegisterLayout()));
+        nextScene.setOnAction(e -> NextMenu());
 
         mainLayout.getChildren().addAll(gridLayerTop, nextScene);
         Scene scene = new Scene(mainLayout, 750, 450);
         return scene;
+    }
+
+    private void NextMenu ()
+    {
+//        if (empty) {return;}
+
+        FillForm.BeginTranscript();
+        FillForm.AddORFields(new FieldHolder("Payee", payeeField.getText()));
+        FillForm.AddORFields(new FieldHolder("Address", addressField.getText()));
+        FillForm.AddORFields(new FieldHolder("Business Style", bussinessStyleField.getText()));
+        FillForm.AddORFields(new FieldHolder("OSCA/PWD ID No.", priorityNumField.getText()));
+        FillForm.AddORFields(new FieldHolder("TIN", tinField.getText()));
+        FillForm.AddORFields(new FieldHolder("Account No.", accountNumField.getText()));
+        FillForm.AddORFields(new FieldHolder("Amount", amountField.getText()));
+
+        Events.SwitchSceneTo(Scenes.CashReceiptsRegisterLayout());
     }
 
     private void InitializeLayouts ()
@@ -80,6 +100,7 @@ public class OrR
         tinText = new Label();
         accountNumText = new Label();
         extraText = new Label();
+        amountText = new Label();
 
         payeeText.setText("Payee ");
         addressText.setText("Address ");
@@ -87,6 +108,7 @@ public class OrR
         priorityNumText.setText("OSCA/PWD ID No.");
         tinText.setText("TIN ");
         accountNumText.setText("Account No. ");
+        amountText.setText("Amount");
         extraText.setText("wow");
     }
 
@@ -98,12 +120,17 @@ public class OrR
         priorityNumField = new TextField();
         tinField = new TextField();
         accountNumField = new TextField();
+        amountField = new TextField();
     }
 
     private void ArrangeTopLayerContents ()
     {
-        Label[] labels = {payeeText, addressText, bussinessStyleText, priorityNumText, tinText,accountNumText, extraText};
-        TextField[] textFields = {payeeField, addressField, bussinessStyleField, priorityNumField, tinField, accountNumField};
+        Label[] labels = {
+                payeeText, addressText, bussinessStyleText, priorityNumText,
+                tinText,accountNumText, amountText, extraText};
+        TextField[] textFields = {
+                payeeField, addressField, bussinessStyleField,
+                priorityNumField, tinField, accountNumField, amountField};
 
         for (int i = 0; i < labels.length; i++)
         {
