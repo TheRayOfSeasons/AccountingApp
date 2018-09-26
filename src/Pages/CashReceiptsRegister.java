@@ -2,6 +2,7 @@ package Pages;
 
 import Java.Events;
 import Java.FillForm;
+import Java.Initialize;
 import Java.Scenes;
 import Objects.Credit;
 import Objects.Debit;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -42,6 +44,9 @@ public class CashReceiptsRegister
             credits,
             debits;
 
+    private HBox
+        hBoxLayerBottom;
+
     private GridPane
             gridLayerTop,
             gridLayerMid,
@@ -67,14 +72,7 @@ public class CashReceiptsRegister
         SetupReferenceUI();
         SetupCredits();
         SetupDebits();
-
-        Button debugButton = new Button();
-        debugButton.setText("Commit");
-        debugButton.setOnAction(e -> Commit());
-
-        Button backButton = new Button();
-        backButton.setText("Back");
-        backButton.setOnAction(e -> Events.SwitchSceneTo(Scenes.ORLayout()));
+        SetupBottomLayer();
 
         //Assemble Scene
         AssembleScene();
@@ -83,8 +81,8 @@ public class CashReceiptsRegister
         InitializeDebitsAndCredits();
 
         //Packing up
-        mainLayout.getChildren().addAll(gridLayerTop, gridLayerMid, debugButton, backButton);
-        Scene scene = new Scene(mainLayout, 750, 450);
+        mainLayout.getChildren().addAll(gridLayerTop, gridLayerMid, hBoxLayerBottom);
+        Scene scene = new Scene(mainLayout, 750, 500);
         return scene;
     }
 
@@ -107,30 +105,37 @@ public class CashReceiptsRegister
 
         //Top Layers
         gridLayerTop = new GridPane();
-        Events.InitializeStandardGridPane(gridLayerTop);
+        Initialize.StandardGridPane(gridLayerTop);
 
         //Mid Layers
         gridLayerMid = new GridPane();
-        Events.InitializeStandardGridPane(gridLayerMid);
+        Initialize.StandardGridPane(gridLayerMid);
         gridLayerMid.setAlignment(Pos.CENTER);
 
         //Sub mid layers
         debitButtons = new GridPane();
-        Events.InitializeStandardGridPane(debitButtons);
+        Initialize.StandardGridPane(debitButtons);
         GridPane.setConstraints(debitButtons, 0, 0);
 
         creditButtons = new GridPane();
-        Events.InitializeStandardGridPane(creditButtons);
+        Initialize.StandardGridPane(creditButtons);
         GridPane.setConstraints(creditButtons, 1, 0);
 
         debits = new VBox(20);
         credits = new VBox(20);
         GridPane.setConstraints(debits, 0, 0);
         GridPane.setConstraints(credits, 1, 0);
+
+        //Bottom Layers
+        hBoxLayerBottom = new HBox(20);
+        Initialize.StandardHBOX(hBoxLayerBottom);
     }
 
     private void StyleLayouts ()
     {
+        gridLayerTop.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+                + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+                + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
         debits.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
                 + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
                 + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
@@ -190,6 +195,32 @@ public class CashReceiptsRegister
         pruneCreditItem.setOnAction(e -> Events.RemoveCredit(creditItems, credits));
         Events.creditButton = pruneCreditItem;
         Events.ToggleRemoveCreditButton(false);
+    }
+
+    private void SetupBottomLayer ()
+    {
+        HBox leftSide, rightSide;
+        leftSide = new HBox(20);
+        rightSide = new HBox(20);
+
+        for (HBox hBox: new HBox[]{leftSide, rightSide})
+            Initialize.StandardHBOX(hBox);
+
+        leftSide.setAlignment(Pos.CENTER_LEFT);
+        rightSide.setAlignment(Pos.CENTER_RIGHT);
+
+        Button commitButton = new Button();
+        commitButton.setText("Commit");
+        commitButton.setOnAction(e -> Commit());
+
+        Button backButton = new Button();
+        backButton.setText("Back");
+        backButton.setOnAction(e -> Events.SwitchSceneTo(Scenes.ORLayout()));
+
+        leftSide.getChildren().addAll(backButton);
+        rightSide.getChildren().addAll(commitButton);
+
+        hBoxLayerBottom.getChildren().addAll(leftSide, rightSide);
     }
 
     private void InitializeDebitsAndCredits()

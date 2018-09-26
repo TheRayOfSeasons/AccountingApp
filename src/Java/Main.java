@@ -16,8 +16,9 @@ public class Main extends Application
     public void start(Stage primaryStage) {
         stage = primaryStage;
         Events.stage = primaryStage;
+//        DatabaseHandler.InitiateDatabase();
         primaryStage.setTitle("Cash Register");
-        primaryStage.setScene(Scenes.ORLayout());
+        primaryStage.setScene(Scenes.CashReceiptsRegisterLayout());
         primaryStage.show();
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -94,20 +95,6 @@ public class Events
     public static void ToggleRemoveCreditButton (boolean toggle)
     {
         creditButton.setDisable(!toggle);
-    }
-
-    public static void InitializeStandardMainVBOX (VBox layout)
-    {
-        layout = new VBox(20);
-        layout.setPadding(new Insets(10, 10, 10, 10));
-    }
-
-    public static void InitializeStandardGridPane(GridPane gridPane)
-    {
-        gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setVgap(8);
-        gridPane.setHgap(10);
     }
 
     public static void SwitchSceneTo (Scene scene)

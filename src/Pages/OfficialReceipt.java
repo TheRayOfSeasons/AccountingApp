@@ -1,9 +1,6 @@
 package Pages;
 
-import Java.AlertBox;
-import Java.Events;
-import Java.FillForm;
-import Java.Scenes;
+import Java.*;
 import Objects.FieldHolder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class OfficialReceipt
@@ -25,8 +23,7 @@ public class OfficialReceipt
             priorityNumText,
             tinText,
             accountNumText,
-            amountText,
-            extraText;
+            amountText;
 
     private TextField
             payeeField,
@@ -40,6 +37,10 @@ public class OfficialReceipt
     private GridPane
         gridLayerTop;
 
+    private HBox
+        headerLayer,
+        hboxLayerBottom;
+
     private VBox
         mainLayout;
 
@@ -48,17 +49,12 @@ public class OfficialReceipt
     public Scene GetScene ()
     {
         InitializeLayouts();
+        SetupHeaderLayer();
         SetupTopLayer();
+        SetupBottomLayer();
 
-        Label label = new Label();
-        label.setText("Official Receipt");
-
-        Button nextScene = new Button();
-        nextScene.setText("Next");
-        nextScene.setOnAction(e -> NextMenu());
-
-        mainLayout.getChildren().addAll(label, gridLayerTop, nextScene);
-        Scene scene = new Scene(mainLayout, 750, 450);
+        mainLayout.getChildren().addAll(headerLayer, gridLayerTop, hboxLayerBottom);
+        Scene scene = new Scene(mainLayout, 750, 500);
         return scene;
     }
 
@@ -92,7 +88,23 @@ public class OfficialReceipt
         mainLayout.setPadding(new Insets(10, 10, 10, 10));
 
         gridLayerTop = new GridPane();
-        Events.InitializeStandardGridPane(gridLayerTop);
+        Initialize.StandardGridPane(gridLayerTop);
+
+        headerLayer = new HBox(20);
+        Initialize.StandardHBOX(headerLayer);
+
+        hboxLayerBottom = new HBox(20);
+        Initialize.StandardHBOX(headerLayer);
+        hboxLayerBottom.setAlignment(Pos.BOTTOM_RIGHT);
+    }
+
+    private void SetupHeaderLayer ()
+    {
+        Label label = new Label();
+        label.setText("Official Receipt");
+        label.setStyle("-fx-font-size: 20");
+
+        headerLayer.getChildren().addAll(label);
     }
 
     private void SetupTopLayer ()
@@ -109,6 +121,15 @@ public class OfficialReceipt
                 + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
     }
 
+    private void SetupBottomLayer ()
+    {
+        Button nextScene = new Button();
+        nextScene.setText("Next");
+        nextScene.setOnAction(e -> NextMenu());
+
+        hboxLayerBottom.getChildren().addAll(nextScene);
+    }
+
     private void InitializeLabels ()
     {
         payeeText = new Label();
@@ -117,7 +138,6 @@ public class OfficialReceipt
         priorityNumText = new Label();
         tinText = new Label();
         accountNumText = new Label();
-        extraText = new Label();
         amountText = new Label();
 
         payeeText.setText("Payee ");
@@ -127,7 +147,6 @@ public class OfficialReceipt
         tinText.setText("TIN ");
         accountNumText.setText("Account No. ");
         amountText.setText("Amount");
-        extraText.setText("wow");
     }
 
     private void InitializeTextFields ()
@@ -174,7 +193,7 @@ public class OfficialReceipt
         return new Label[]
                 {
                     payeeText, addressText, bussinessStyleText, priorityNumText,
-                    tinText,accountNumText, amountText, extraText
+                    tinText,accountNumText, amountText
                 };
     }
 
