@@ -1,10 +1,14 @@
 package Pages;
 
+import Java.AlertBox;
 import Java.Events;
 import Java.FillForm;
 import Java.Scenes;
 import Objects.FieldHolder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,18 +50,29 @@ public class OfficialReceipt
         InitializeLayouts();
         SetupTopLayer();
 
+        Label label = new Label();
+        label.setText("Official Receipt");
+
         Button nextScene = new Button();
         nextScene.setText("Next");
         nextScene.setOnAction(e -> NextMenu());
 
-        mainLayout.getChildren().addAll(gridLayerTop, nextScene);
+        mainLayout.getChildren().addAll(label, gridLayerTop, nextScene);
         Scene scene = new Scene(mainLayout, 750, 450);
         return scene;
     }
 
     private void NextMenu ()
     {
-//        if (empty) {return;}
+        //if a field is empty, alert
+        for (TextField textField: GetAllTextFields())
+        {
+            if (textField.getText() == null || textField.getText().trim().isEmpty())
+            {
+                AlertBox.Empty();
+                return;
+            }
+        }
 
         FillForm.BeginTranscript();
         FillForm.AddORFields(new FieldHolder("Payee", payeeField.getText()));
@@ -86,9 +101,12 @@ public class OfficialReceipt
         InitializeTextFields();
         ArrangeTopLayerContents();
 
-        gridLayerTop.getChildren().addAll(payeeText, addressText, bussinessStyleText,
-                priorityNumText, tinText, accountNumText, extraText, payeeField, addressField, bussinessStyleField,
-                priorityNumField, tinField, accountNumField);
+        gridLayerTop.getChildren().addAll(GetAllLabels());
+        gridLayerTop.getChildren().addAll(GetAllTextFields());
+
+        gridLayerTop.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
+                + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
+                + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
     }
 
     private void InitializeLabels ()
@@ -120,17 +138,22 @@ public class OfficialReceipt
         priorityNumField = new TextField();
         tinField = new TextField();
         accountNumField = new TextField();
+        accountNumField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d*")) {
+                        accountNumField.setText(newValue.replaceAll("[^\\d]", ""));
+                        AlertBox.NumOnly();
+                    }
+            }
+        });
         amountField = new TextField();
     }
 
     private void ArrangeTopLayerContents ()
     {
-        Label[] labels = {
-                payeeText, addressText, bussinessStyleText, priorityNumText,
-                tinText,accountNumText, amountText, extraText};
-        TextField[] textFields = {
-                payeeField, addressField, bussinessStyleField,
-                priorityNumField, tinField, accountNumField, amountField};
+        Label[] labels = GetAllLabels();
+        TextField[] textFields = GetAllTextFields();
 
         for (int i = 0; i < labels.length; i++)
         {
@@ -144,5 +167,23 @@ public class OfficialReceipt
             GridPane.setConstraints(textFields[i], 1, i);
             GridPane.setMargin(textFields[i], new Insets(7, 2, 7, 2));
         }
+    }
+
+    private Label[] GetAllLabels ()
+    {
+        return new Label[]
+                {
+                    payeeText, addressText, bussinessStyleText, priorityNumText,
+                    tinText,accountNumText, amountText, extraText
+                };
+    }
+
+    private TextField[] GetAllTextFields ()
+    {
+        return new TextField[]
+                {
+                    payeeField, addressField, bussinessStyleField,
+                        priorityNumField, tinField, accountNumField, amountField
+                };
     }
 }

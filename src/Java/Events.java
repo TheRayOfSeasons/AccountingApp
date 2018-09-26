@@ -110,13 +110,6 @@ public class Events
         gridPane.setHgap(10);
     }
 
-
-
-    public static void PrintReceipt ()
-    {
-        //TODO make CashReceipt and OR object
-    }
-
     public static void SwitchSceneTo (Scene scene)
     {
         stage.setScene(scene);

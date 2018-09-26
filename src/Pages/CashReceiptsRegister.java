@@ -7,6 +7,7 @@ import Objects.Credit;
 import Objects.Debit;
 import Objects.FieldHolder;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -68,8 +69,8 @@ public class CashReceiptsRegister
         SetupDebits();
 
         Button debugButton = new Button();
-        debugButton.setText("Debug");
-        debugButton.setOnAction(e -> Debug());
+        debugButton.setText("Commit");
+        debugButton.setOnAction(e -> Commit());
 
         Button backButton = new Button();
         backButton.setText("Back");
@@ -88,34 +89,15 @@ public class CashReceiptsRegister
     }
 
     //Debit and Credit private methods
-    private void Debug ()
+    private void Commit()
     {
-        System.out.println("-------------------------------");
-        System.out.println("Particular: " + particularField.getText());
-        System.out.println("Reference: " + referenceField.getText());
-
         FillForm.AddRegisterFields(new FieldHolder("Particular", particularField.getText()));
         FillForm.AddRegisterFields(new FieldHolder("Reference", referenceField.getText()));
-        FillForm.PrintRecieptA();
 
-        int x = 1;
-        System.out.println("\n-----Debits: ");
-        for (Debit d: debitItems)
-        {
-            System.out.println("Debit " + x + ":");
-            System.out.println("Account number: " + d.accountNumber.getText()
-                    + " | Amount Debited: " + d.value.getText());
-            x++;
-        }
+        FillForm.Debits(debitItems);
+        FillForm.Credits(creditItems);
 
-        int y = 1;
-        System.out.println("\n-----Credits: ");
-        for (Credit c: creditItems)
-        {
-            System.out.println("Credit " + y + ": ");
-            System.out.println("Account number: " + c.accountNumber.getText()
-                    + " | Amount Credited: " + c.value.getText());
-        }
+        FillForm.CommitRecieptA();
     }
 
     private void InitializeLayouts ()
@@ -130,6 +112,7 @@ public class CashReceiptsRegister
         //Mid Layers
         gridLayerMid = new GridPane();
         Events.InitializeStandardGridPane(gridLayerMid);
+        gridLayerMid.setAlignment(Pos.CENTER);
 
         //Sub mid layers
         debitButtons = new GridPane();
