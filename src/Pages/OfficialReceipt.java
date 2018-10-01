@@ -157,17 +157,18 @@ public class OfficialReceipt
         priorityNumField = new TextField();
         tinField = new TextField();
         accountNumField = new TextField();
-        accountNumField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        accountNumField.setText(newValue.replaceAll("[^\\d]", ""));
-                        AlertBox.NumOnly();
-                    }
-            }
-        });
         amountField = new TextField();
+
+        for (TextField textField : new TextField[]{priorityNumField, tinField, accountNumField, amountField})
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    accountNumField.setText(newValue.replaceAll("[^\\d]", ""));
+                    AlertBox.NumOnly();
+                }
+            });
     }
+
+//    private void something (ObservableValue<? extends String> observable, String oldValue, String newValue)
 
     private void ArrangeTopLayerContents ()
     {
