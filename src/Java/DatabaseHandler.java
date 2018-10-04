@@ -2,7 +2,6 @@ package Java;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class DatabaseHandler
@@ -84,10 +83,11 @@ public class DatabaseHandler
         }
         System.out.println("Table created successfully");
 
-        AddDataCashReceiptA();
+//        SampleInsert();
 //        AddData();
     }
-    public static void AddDataCashReceiptA ()
+
+    public static void SampleInsert()
     {
         try {
             stmt = conn.createStatement();
@@ -100,7 +100,42 @@ public class DatabaseHandler
                     "\"10340\");";
             stmt.execute(sql);
             stmt.close();
-            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AddDataCashReceiptA (int debitData, int creditData)
+    {
+        try {
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO " + CashReceiptA +
+                    " (" + uuid + ", " + referenceNo + ", " + debit + ", " + credit + ")" +
+                    " VALUES (" +
+                    "\"" + UUID.randomUUID().toString() + "\"" + ", " +
+                    "\"" + GetCurrentDate() + "\"" + ", " +
+                    "\"" + debitData + "\""  + ", " +
+                    "\"" + creditData + "\""  + ");";
+            stmt.execute(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AddDataCashOnHandA (String particularData, String referenceNoData)
+    {
+        try {
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO " + CashOnHandA +
+                    " (" + uuid + ", " + date + ", " + particular + ", " + referenceNo + ")" +
+                    " VALUES (" +
+                    "\"" + UUID.randomUUID().toString() + "\"" + ", " +
+                    "\"" + GetCurrentDate() + "\"" + ", " +
+                    "\"" + particularData + "\""  + ", " +
+                    "\"" + referenceNoData + "\""  + ");";
+            stmt.execute(sql);
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,7 +143,6 @@ public class DatabaseHandler
 
     private static Date GetCurrentDate()
     {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-DD");
         LocalDate localDate = LocalDate.now();
         return Date.valueOf(localDate);
     }

@@ -77,7 +77,7 @@ public class FillForm
         {
             System.out.println("Credit " + y + ": ");
             System.out.println("Account number: " + c.accountNumber.getText()
-                    + " | Amount Credited: " + c.value.getText());
+                    + " | Amount Credited: " + c.creditValue.getText());
         }
     }
 }
