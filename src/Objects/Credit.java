@@ -1,5 +1,6 @@
 package Objects;
 
+import Java.Events;
 import Java.Initialize;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,7 +16,17 @@ public class Credit
             typeOfLoanNo;
     public GridPane gridPane;
     public VBox layout;
-    public ComboBox accountTitle;
+    public ComboBox accountTitleBox;
+
+    public enum Titles
+    {
+        Cash_On_Hand,
+        Loans_Receivable,
+        Savings_Deposit,
+        Time_Deposit,
+        Sundry_Accounts
+    };
+    public Titles title;
 
     private String currentSelected = "";
 
@@ -30,15 +41,11 @@ public class Credit
         accountTitleText.setText("Account Name");
         GridPane.setConstraints(accountTitleText, 0, 1);
 
-        accountTitle = new ComboBox();
-        accountTitle.getItems().addAll(
-                "Cash On Hand",
-                "Loans Receivable",
-                "Savings Deposit",
-                "Time Deposit",
-                "Sundry Accounts"
+        accountTitleBox = new ComboBox();
+        accountTitleBox.getItems().addAll(
+                Titles.values()
         );
-        accountTitle.getSelectionModel().selectFirst();
+        accountTitleBox.getSelectionModel().selectFirst();
 
         layout = new VBox(20);
         Initialize.StandardVBOX(layout);
@@ -47,14 +54,14 @@ public class Credit
             + "-fx-border-radius: 5;" + "-fx-border-color: gray;");
 
         gridPane = new GridPane();
-        gridPane.getChildren().addAll(accountTitleText, accountTitle);
+        gridPane.getChildren().addAll(accountTitleText, accountTitleBox);
         layout.getChildren().addAll(gridPane, CashOnHandLayout());
+        SetTitle();
 
-        accountTitle.setOnAction(event ->
-                layout.getChildren().add(SetCreditForm(accountTitle.getSelectionModel().getSelectedItem().toString())));
+        accountTitleBox.setOnAction(event ->
+                layout.getChildren().add(SetCreditForm(Events.GetCurrentItem(accountTitleBox))));
 
-        GridPane.setConstraints(accountTitle, 1, 1);
-
+        GridPane.setConstraints(accountTitleBox, 1, 1);
     }
 
     private GridPane SetCreditForm (String accountTitle)
@@ -62,12 +69,13 @@ public class Credit
         layout.getChildren().remove(1);
         GridPane creditLayout = new GridPane();
         Initialize.StandardGridPane(creditLayout);
+        SetTitle();
 
-        if (accountTitle == "Cash On Hand")
+        if (accountTitle == Titles.Cash_On_Hand.toString())
         {
             creditLayout = CashOnHandLayout();
         }
-        else if (accountTitle == "Loans Receivable")
+        else if (accountTitle == Titles.Loans_Receivable.toString())
         {
             creditLayout = LoansReceivableLayout();
         }
@@ -153,5 +161,10 @@ public class Credit
         creditLayout.getChildren().addAll(textFields);
 
         return creditLayout;
+    }
+
+    private void SetTitle ()
+    {
+        title = Titles.valueOf(Events.GetCurrentItem(accountTitleBox));
     }
 }

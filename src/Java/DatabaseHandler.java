@@ -4,7 +4,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class DatabaseHandler
+public class DatabaseHandler extends FillForm
 {
     private static Connection conn = null;
     private static Statement stmt = null;
