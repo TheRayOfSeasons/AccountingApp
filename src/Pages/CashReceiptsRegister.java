@@ -89,8 +89,8 @@ public class CashReceiptsRegister
     //Debit and Credit private methods
     private void Commit()
     {
-        FillForm.AddRegisterFields(new FieldHolder("Particular", particularField.getText()));
-        FillForm.AddRegisterFields(new FieldHolder("Reference", referenceField.getText()));
+        FillForm.cashReceiptA.Particular = particularField.getText();
+        FillForm.cashReceiptA.ReferenceNo = referenceField.getText();
 
         FillForm.Debits(debitItems);
         FillForm.Credits(creditItems);

@@ -24,6 +24,7 @@ public class Credit
         Loans_Receivable,
         Savings_Deposit,
         Time_Deposit,
+        INT_INC,
         Sundry_Accounts
     };
     public Titles title;
@@ -42,9 +43,7 @@ public class Credit
         GridPane.setConstraints(accountTitleText, 0, 1);
 
         accountTitleBox = new ComboBox();
-        accountTitleBox.getItems().addAll(
-                Titles.values()
-        );
+        accountTitleBox.getItems().addAll(Titles.values());
         accountTitleBox.getSelectionModel().selectFirst();
 
         layout = new VBox(20);

@@ -1,9 +1,6 @@
 package Pages;
 
 import Java.*;
-import Objects.FieldHolder;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -71,13 +68,13 @@ public class OfficialReceipt
         }
 
         FillForm.BeginTranscript();
-        FillForm.AddORFields(new FieldHolder("Payee", payeeField.getText()));
-        FillForm.AddORFields(new FieldHolder("Address", addressField.getText()));
-        FillForm.AddORFields(new FieldHolder("Business Style", bussinessStyleField.getText()));
-        FillForm.AddORFields(new FieldHolder("OSCA/PWD ID No.", priorityNumField.getText()));
-        FillForm.AddORFields(new FieldHolder("TIN", tinField.getText()));
-        FillForm.AddORFields(new FieldHolder("Account No.", accountNumField.getText()));
-        FillForm.AddORFields(new FieldHolder("Amount", amountField.getText()));
+        FillForm.cashReceiptA.Payee = payeeField.getText();
+        FillForm.cashReceiptA.Address = addressField.getText();
+        FillForm.cashReceiptA.BusinessStyle = bussinessStyleField.getText();
+        FillForm.cashReceiptA.PriorityNumber = priorityNumField.getText();
+        FillForm.cashReceiptA.TIN = tinField.getText();
+        FillForm.cashReceiptA.AccountNumber = accountNumField.getText();
+        FillForm.cashReceiptA.Amount = Float.parseFloat(amountField.getText());
 
         Events.SwitchSceneTo(Scenes.CashReceiptsRegisterLayout());
     }
