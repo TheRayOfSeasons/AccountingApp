@@ -1,9 +1,16 @@
 package Java;
 
+import Objects.CreditTitles;
+
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import static java.lang.Float.parseFloat;
+
+@SuppressWarnings("Duplicates")
 public class DatabaseHandler extends FillForm
 {
     private static Connection conn = null;
@@ -11,12 +18,12 @@ public class DatabaseHandler extends FillForm
     //Tables
     private static String
         CashReceiptA = "CASHRECEIPT_A",
-        CashOnHandA = "CASHONHAND_A",
-        LoansReceivableA = "LOANSRECEIVABLE_A",
-        SavingsDepositA = "SAVINGSDEPOSIT_A",
-        TimeDepositA = "TIMEDEPOSIT_A",
-        IntInc_A = "INTINC_A",
-        SundryAccountsA = "SUNDRYACCOUNTS_A";
+        CashOnHandA = CreditTitles.Cash_On_Hand,
+        LoansReceivableA = CreditTitles.Loans_Receivable,
+        SavingsDepositA = CreditTitles.Savings_Deposit,
+        TimeDepositA = CreditTitles.Time_Deposit,
+        IntInc_A = CreditTitles.INT_INC,
+        SundryAccountsA = CreditTitles.Sundry_Accounts;
 
     //Columns
     private static String
@@ -36,11 +43,17 @@ public class DatabaseHandler extends FillForm
         uuidData = UUID.randomUUID().toString();
     }
 
+    private static Date GetCurrentDate()
+    {
+        LocalDate localDate = LocalDate.now();
+        return Date.valueOf(localDate);
+    }
+
     public static void InitiateDatabase ()
     {
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\rayla\\IdeaProjects\\AccountingApp\\sql\\sampleDB.sqlite");
+            conn = DriverManager.getConnection("jdbc:sqlite:sql\\sampleDB.sqlite");
             System.out.println("Opened database successfully");
             Statement stmt = conn.createStatement();
             String sql =
@@ -113,26 +126,146 @@ public class DatabaseHandler extends FillForm
         System.out.println("Table created successfully");
 
         NewUUID();
-
-//        SampleInsert();
-//        AddData();
     }
 
-    public static void SampleInsert()
+    public static List<String> GetDates ()
     {
+        List<String> contents = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO " + CashReceiptA +
-                    " (" + uuid + ", " + date + ", " + particular + ", " + referenceNo + ")" +
-                    " VALUES (" +
-                    "\"" + uuidData + "\"" + ", " +
-                    "\"" + GetCurrentDate() + "\"" + ", " +
-                    "\"Particular Sample\", " +
-                    "\"10340\");";
-            stmt.execute(sql);
+            String sql =
+                    "SELECT " + date + " " +
+                    "FROM " + CashReceiptA + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return contents;
+    }
+
+    public static List<String> GetParticulars ()
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + particular + " " +
+                    "FROM " + CashReceiptA + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static List<String> GetReferenceNo ()
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + referenceNo + " " +
+                            "FROM " + CashReceiptA + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static List<String> GetTypeOfLoan ()
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + typeOfLoanNo + " " +
+                            "FROM " + LoansReceivableA + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static List<String> GetAccountNo (String accountTitle)
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + accountNo + " " +
+                            "FROM " + accountTitle + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static List<Float> GetCredits(String accountTitle)
+    {
+        List<Float> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + credit + " " +
+                    "FROM " + accountTitle + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getFloat(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static List<Float> GetDebits (String accountTitle)
+    {
+        List<Float> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + debit + " " +
+                            "FROM " + accountTitle + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getFloat(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
     }
 
     public static void AddDataCashReceiptA (String particularData, String referenceNoData)
@@ -172,8 +305,7 @@ public class DatabaseHandler extends FillForm
     public static void AddDataLoansRecievableA (String referenceNoData, String typeOfLoanData, String accountNoData, float creditData)
     {
         try {
-            Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\rayla\\IdeaProjects\\AccountingApp\\sql\\sampleDB.sqlite");
-            Statement stmt = con.createStatement();
+            Statement stmt = conn.createStatement();
             String sql = "INSERT INTO " + LoansReceivableA +
                     " (" + uuid + ", " + referenceNo + ", " + typeOfLoanNo + ", " + accountNo + ", " + credit +  ")" +
                     " VALUES (" +
@@ -255,11 +387,5 @@ public class DatabaseHandler extends FillForm
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static Date GetCurrentDate()
-    {
-        LocalDate localDate = LocalDate.now();
-        return Date.valueOf(localDate);
     }
 }

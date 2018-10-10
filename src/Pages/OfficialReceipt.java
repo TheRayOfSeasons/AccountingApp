@@ -51,7 +51,7 @@ public class OfficialReceipt
         SetupBottomLayer();
 
         mainLayout.getChildren().addAll(headerLayer, gridLayerTop, hboxLayerBottom);
-        Scene scene = new Scene(mainLayout, 750, 500);
+        Scene scene = new Scene(mainLayout, Initialize.StandardWindowMinWidth(), Initialize.StandardWindowMinHeight());
         return scene;
     }
 

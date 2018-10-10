@@ -21,6 +21,8 @@ public class AlertBox
         ConstructWindow("Please fill up all fields.");
     }
 
+    public static void InsertSuccess () {ConstructWindow("Data Insertion Successful!");}
+
     private static void ConstructWindow (String message)
     {
         Stage alertWindow = new Stage();

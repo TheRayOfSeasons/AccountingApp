@@ -24,4 +24,14 @@ public class Initialize
         gridPane.setVgap(8);
         gridPane.setHgap(10);
     }
+
+    public static float StandardWindowMinHeight ()
+    {
+        return 600;
+    }
+
+    public static float StandardWindowMinWidth ()
+    {
+        return 750;
+    }
 }

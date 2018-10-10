@@ -1,7 +1,6 @@
 package Java;
 
-import Pages.CashReceiptsRegister;
-import Pages.OfficialReceipt;
+import Pages.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -17,6 +16,12 @@ public class Scenes
     {
         return new OfficialReceipt().GetScene();
     }
+
+    public static Scene ConfirmDataLayout() { return new ConfirmData().GetScene(); }
+
+    public static Scene MainMenuLayout () { return new MainMenu().GetScene(); }
+
+    public static Scene ViewDatabaseLayout () { return new ViewDatabase().GetScene(); }
 
     public static Scene testScene ()
     {

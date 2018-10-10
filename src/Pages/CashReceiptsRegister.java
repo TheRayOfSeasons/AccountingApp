@@ -6,7 +6,6 @@ import Java.Initialize;
 import Java.Scenes;
 import Objects.Credit;
 import Objects.Debit;
-import Objects.FieldHolder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -82,12 +81,12 @@ public class CashReceiptsRegister
 
         //Packing up
         mainLayout.getChildren().addAll(gridLayerTop, gridLayerMid, hBoxLayerBottom);
-        Scene scene = new Scene(mainLayout, 750, 500);
+        Scene scene = new Scene(mainLayout, Initialize.StandardWindowMinWidth(), Initialize.StandardWindowMinHeight());
         return scene;
     }
 
     //Debit and Credit private methods
-    private void Commit()
+    private void NextMenu()
     {
         FillForm.cashReceiptA.Particular = particularField.getText();
         FillForm.cashReceiptA.ReferenceNo = referenceField.getText();
@@ -95,7 +94,7 @@ public class CashReceiptsRegister
         FillForm.Debits(debitItems);
         FillForm.Credits(creditItems);
 
-        FillForm.CommitRecieptA();
+        Events.SwitchSceneTo(Scenes.ConfirmDataLayout());
     }
 
     private void InitializeLayouts ()
@@ -209,16 +208,16 @@ public class CashReceiptsRegister
         leftSide.setAlignment(Pos.CENTER_LEFT);
         rightSide.setAlignment(Pos.CENTER_RIGHT);
 
-        Button commitButton = new Button();
-        commitButton.setText("Commit");
-        commitButton.setOnAction(e -> Commit());
+        Button nextButton = new Button();
+        nextButton.setText("NextMenu");
+        nextButton.setOnAction(e -> NextMenu());
 
         Button backButton = new Button();
         backButton.setText("Back");
         backButton.setOnAction(e -> Events.SwitchSceneTo(Scenes.ORLayout()));
 
         leftSide.getChildren().addAll(backButton);
-        rightSide.getChildren().addAll(commitButton);
+        rightSide.getChildren().addAll(nextButton);
 
         hBoxLayerBottom.getChildren().addAll(leftSide, rightSide);
     }

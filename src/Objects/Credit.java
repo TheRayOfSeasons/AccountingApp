@@ -18,16 +18,7 @@ public class Credit
     public VBox layout;
     public ComboBox accountTitleBox;
 
-    public enum Titles
-    {
-        Cash_On_Hand,
-        Loans_Receivable,
-        Savings_Deposit,
-        Time_Deposit,
-        INT_INC,
-        Sundry_Accounts
-    };
-    public Titles title;
+    public String title;
 
     private String currentSelected = "";
 
@@ -43,7 +34,7 @@ public class Credit
         GridPane.setConstraints(accountTitleText, 0, 1);
 
         accountTitleBox = new ComboBox();
-        accountTitleBox.getItems().addAll(Titles.values());
+        accountTitleBox.getItems().addAll(CreditTitles.GetTitles());
         accountTitleBox.getSelectionModel().selectFirst();
 
         layout = new VBox(20);
@@ -70,11 +61,11 @@ public class Credit
         Initialize.StandardGridPane(creditLayout);
         SetTitle();
 
-        if (accountTitle == Titles.Cash_On_Hand.toString())
+        if (accountTitle == CreditTitles.Cash_On_Hand)
         {
             creditLayout = CashOnHandLayout();
         }
-        else if (accountTitle == Titles.Loans_Receivable.toString())
+        else if (accountTitle == CreditTitles.Loans_Receivable)
         {
             creditLayout = LoansReceivableLayout();
         }
@@ -164,6 +155,6 @@ public class Credit
 
     private void SetTitle ()
     {
-        title = Titles.valueOf(Events.GetCurrentItem(accountTitleBox));
+        title = Events.GetCurrentItem(accountTitleBox);
     }
 }

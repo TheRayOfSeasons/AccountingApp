@@ -1,9 +1,6 @@
 package Java;
 
-import Objects.CashReceiptA;
-import Objects.Credit;
-import Objects.Debit;
-import Objects.FieldHolder;
+import Objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +37,11 @@ public class FillForm
 
     public static void CommitRecieptA()
     {
-        PrintReceiptA();
-        InsertToDatabase();
+        if (cashReceiptA.isFull())
+        {
+            System.out.println(PrintReceiptA());
+            InsertToDatabase();
+        }
     }
 
     public static void InsertToDatabase()
@@ -60,14 +60,14 @@ public class FillForm
 
         for (Credit c: credits)
         {
-            if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Cash_On_Hand.toString())
+            if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Cash_On_Hand)
             {
                 DatabaseHandler.AddDataCashOnHandA(
                         cashReceiptA.ReferenceNo,
                         0,
                         Float.parseFloat(c.creditValue.getText()));
             }
-            else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Loans_Receivable.toString())
+            else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Loans_Receivable)
             {
                 DatabaseHandler.AddDataLoansRecievableA(
                         cashReceiptA.ReferenceNo,
@@ -75,28 +75,28 @@ public class FillForm
                         c.accountNumber.getText(),
                         Float.parseFloat(c.creditValue.getText()));
             }
-            else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Savings_Deposit.toString())
+            else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Savings_Deposit)
             {
                 DatabaseHandler.AddDataSavingsDepositA(
                         cashReceiptA.ReferenceNo,
                         c.accountNumber.getText(),
                         Float.parseFloat(c.creditValue.getText()));
             }
-            else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Time_Deposit.toString())
+            else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Time_Deposit)
             {
                 DatabaseHandler.AddDataTimeDepositA(
                         cashReceiptA.ReferenceNo,
                         c.accountNumber.getText(),
                         Float.parseFloat(c.creditValue.getText()));
             }
-            else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.INT_INC.toString())
+            else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.INT_INC)
             {
                 DatabaseHandler.AddDataINTINCA(
                         cashReceiptA.ReferenceNo,
                         c.accountNumber.getText(),
                         Float.parseFloat(c.creditValue.getText()));
             }
-            else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Sundry_Accounts.toString())
+            else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Sundry_Accounts)
             {
                 DatabaseHandler.AddDataSundryAccountsA(
                         cashReceiptA.ReferenceNo,
@@ -109,55 +109,64 @@ public class FillForm
         DatabaseHandler.NewUUID();
     }
 
-    public static void PrintReceiptA ()
+    public static String PrintReceiptA ()
     {
+        StringBuilder details = new StringBuilder();
+        
         if (cashReceiptA.isFull())
         {
             //TODO Implement insertion of data into database
-            System.out.println("-------------------------------");
+            details.append("-----Official Receipt\n");
 
-            System.out.println("Payee: " + cashReceiptA.Payee);
-            System.out.println("Address: " + cashReceiptA.Address);
-            System.out.println("Business Style" + cashReceiptA.BusinessStyle);
-            System.out.println("OSCA/PWD ID No: " + cashReceiptA.PriorityNumber);
-            System.out.println("TIN" + cashReceiptA.TIN);
-            System.out.println("Account No: " + cashReceiptA.AccountNumber);
-            System.out.println("Amount: " + cashReceiptA.Amount);
+            details.append("Payee: " + cashReceiptA.Payee + "\n");
+            details.append("Address: " + cashReceiptA.Address + "\n");
+            details.append("Business Style: " + cashReceiptA.BusinessStyle + "\n");
+            details.append("OSCA/PWD ID No: " + cashReceiptA.PriorityNumber + "\n");
+            details.append("TIN: " + cashReceiptA.TIN + "\n");
+            details.append("Account No: " + cashReceiptA.AccountNumber + "\n");
+            details.append("Amount: " + cashReceiptA.Amount + "\n");
 
             int x = 1;
-            System.out.println("\n-----Debits: ");
+            details.append("\n-----Debits: " + "\n");
             for (Debit d: debits)
             {
-                System.out.println("Debit " + ++x + ":");
-                System.out.println("Account number: " + d.accountNumber.getText()
-                        + " | Amount Debited: " + d.value.getText());
+                details.append("Debit " + x + ":" + "\n");
+                details.append("Account number: " + d.accountNumber.getText()
+                        + " | Amount Debited: " + d.value.getText() + "\n");
+
+                x++;
             }
 
             int y = 1;
-            System.out.println("\n-----Credits: ");
+            details.append("\n-----Credits: " + "\n");
             for (Credit c: credits) {
-                System.out.println("Credit " + ++y + ": ");
+                details.append("Credit " + y + ": " + "\n");
 
-                System.out.println("Account Title: " + Events.GetCurrentItem(c.accountTitleBox));
-                if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Cash_On_Hand.toString()) {
-                    System.out.println("Amount Credited: " + c.creditValue.getText());
-                } else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Loans_Receivable.toString()) {
-                    System.out.println("Type of Loan No: " + c.typeOfLoanNo.getText()
+                details.append("Account Title: " + Events.GetCurrentItem(c.accountTitleBox) + "\n");
+                if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Cash_On_Hand) {
+                    details.append("Amount Credited: " + c.creditValue.getText() + "\n");
+                } else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Loans_Receivable) {
+                    details.append("Type of Loan No: " + c.typeOfLoanNo.getText()
                             + " | Account number: " + c.accountNumber.getText()
-                            + " | Amount Credited: " + c.creditValue.getText());
-                } else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Savings_Deposit.toString()) {
-                    System.out.println("Account number: " + c.accountNumber.getText()
-                            + " | Amount Credited: " + c.creditValue.getText());
-                } else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Time_Deposit.toString()) {
-                    System.out.println("Account number: " + c.accountNumber.getText()
-                            + " | Amount Credited: " + c.creditValue.getText());
-                } else if (Events.GetCurrentItem(c.accountTitleBox) == Credit.Titles.Sundry_Accounts.toString()) {
-                    System.out.println("Account number: " + c.accountNumber.getText()
-                            + " | Amount Credited: " + c.creditValue.getText());
+                            + " | Amount Credited: " + c.creditValue.getText() + "\n");
+                } else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Savings_Deposit) {
+                    details.append("Account number: " + c.accountNumber.getText()
+                            + " | Amount Credited: " + c.creditValue.getText() + "\n");
+                } else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Time_Deposit) {
+                    details.append("Account number: " + c.accountNumber.getText()
+                            + " | Amount Credited: " + c.creditValue.getText() + "\n");
+                } else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.INT_INC) {
+                    details.append("Account number: " + c.accountNumber.getText()
+                            + " | Amount Credited: " + c.creditValue.getText() + "\n");
+                }else if (Events.GetCurrentItem(c.accountTitleBox) == CreditTitles.Sundry_Accounts) {
+                    details.append("Account number: " + c.accountNumber.getText()
+                            + " | Amount Credited: " + c.creditValue.getText() + "\n");
                 }
+
+                y++;
             }
         }
+
+        return details.toString();
     }
-
-
 }
