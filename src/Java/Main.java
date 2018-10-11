@@ -23,6 +23,8 @@ public class Main extends Application
         primaryStage.setTitle("Cash Register");
         primaryStage.setScene(Scenes.MainMenuLayout());
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> DatabaseHandler.CloseConnection());
     }
 }
 

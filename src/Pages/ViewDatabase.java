@@ -133,28 +133,29 @@ public class ViewDatabase extends DatabaseHandler
     public ObservableList<CashRecieptAEntry> GetEntries()
     {
         ObservableList<CashRecieptAEntry> entries = FXCollections.observableArrayList();
+        int entryCount = GetUUID().size();
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < entryCount; i++)
         {
             entries.add(new CashRecieptAEntry
                     (
-                        GetDates().get(i),
-                        GetParticulars().get(i),
-                        GetReferenceNo().get(i),
-                        GetTypeOfLoan().get(i),
-                        GetAccountNo(CreditTitles.Loans_Receivable).get(i),
-                        GetAccountNo(CreditTitles.Savings_Deposit).get(i),
-                        GetAccountNo(CreditTitles.Time_Deposit).get(i),
-                        GetAccountNo(CreditTitles.INT_INC).get(i),
-                        GetAccountNo(CreditTitles.Sundry_Accounts).get(i),
-                        GetDebits(CreditTitles.Cash_On_Hand).get(i),
-                        GetDebits(CreditTitles.Sundry_Accounts).get(i),
-                        GetCredits(CreditTitles.Cash_On_Hand).get(i),
-                        GetCredits(CreditTitles.Loans_Receivable).get(i),
-                        GetCredits(CreditTitles.Savings_Deposit).get(i),
-                        GetCredits(CreditTitles.Time_Deposit).get(i),
-                        GetCredits(CreditTitles.INT_INC).get(i),
-                        GetCredits(CreditTitles.Sundry_Accounts).get(i)
+                        GetDate(GetUUID().get(i)),
+                        GetParticular(GetUUID().get(i)),
+                        GetReferenceNo(GetUUID().get(i)),
+                        GetTypeOfLoan(GetUUID().get(i)).get(0),
+                        GetAccountNo(GetUUID().get(i), CreditTitles.Loans_Receivable).get(0),
+                        GetAccountNo(GetUUID().get(i), CreditTitles.Savings_Deposit).get(0),
+                        GetAccountNo(GetUUID().get(i), CreditTitles.Time_Deposit).get(0),
+                        GetAccountNo(GetUUID().get(i), CreditTitles.INT_INC).get(0),
+                        GetAccountNo(GetUUID().get(i), CreditTitles.Sundry_Accounts).get(0),
+                        GetDebit(GetUUID().get(i), CreditTitles.Cash_On_Hand).get(0),
+                        GetDebit(GetUUID().get(i), CreditTitles.Sundry_Accounts).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.Cash_On_Hand).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.Loans_Receivable).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.Savings_Deposit).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.Time_Deposit).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.INT_INC).get(0),
+                        GetCredit(GetUUID().get(i), CreditTitles.Sundry_Accounts).get(0)
                     )
             );
         }

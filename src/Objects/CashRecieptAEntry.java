@@ -6,7 +6,7 @@ public class CashRecieptAEntry
         date,
         particular,
         referenceNo,
-            typeOfLoanLR,
+        typeOfLoanLR,
         accountNoLR,
         accountNoSD,
         accountNoTD,
@@ -59,6 +59,8 @@ public class CashRecieptAEntry
         this.referenceNo = referenceNo;
     }
 
+    public void setTypeOfLoanLR(String typeOfLoanLR) { this.typeOfLoanLR = typeOfLoanLR; }
+
     public void setAccountNoLR(String accountNoLR) {
         this.accountNoLR = accountNoLR;
     }
@@ -107,6 +109,8 @@ public class CashRecieptAEntry
         this.creditII = creditII;
     }
 
+    public void setCreditSA(float creditSA) { this.creditSA = creditSA; }
+
     public String getDate() {
         return date;
     }
@@ -118,6 +122,8 @@ public class CashRecieptAEntry
     public String getReferenceNo() {
         return referenceNo;
     }
+
+    public String getTypeOfLoanLR() { return typeOfLoanLR; }
 
     public String getAccountNoLR() {
         return accountNoLR;
@@ -166,4 +172,6 @@ public class CashRecieptAEntry
     public float getCreditII() {
         return creditII;
     }
+
+    public float getCreditSA() { return creditSA; }
 }

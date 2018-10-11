@@ -119,6 +119,8 @@ public class DatabaseHandler extends FillForm
 //                    " AMOUNT          INTEGER)";
 
             stmt.executeUpdate(sql);
+            stmt.close();
+
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -126,6 +128,59 @@ public class DatabaseHandler extends FillForm
         System.out.println("Table created successfully");
 
         NewUUID();
+    }
+
+    public static void CloseConnection ()
+    {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String> GetUUID ()
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + uuid + " " +
+                            "FROM " + CashReceiptA + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contents;
+    }
+
+    public static String GetDate (String contentUUID)
+    {
+        String content = "";
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + date + " " +
+                    "FROM " + CashReceiptA + " " +
+                    "WHERE " + uuid  + " = " + "\"" + contentUUID + "\"" + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            content = rs.getString(1);
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return content;
     }
 
     public static List<String> GetDates ()
@@ -142,10 +197,37 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getString(1));
 
+            stmt.close();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add("");
+
         return contents;
+    }
+
+    public static String GetParticular (String contentUUID)
+    {
+        String content = "";
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + particular + " " +
+                            "FROM " + CashReceiptA + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            content = rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return content;
     }
 
     public static List<String> GetParticulars ()
@@ -165,10 +247,35 @@ public class DatabaseHandler extends FillForm
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add("");
+
         return contents;
     }
 
-    public static List<String> GetReferenceNo ()
+    public static String GetReferenceNo(String contentUUID)
+    {
+        String content = "";
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + referenceNo + " " +
+                            "FROM " + CashReceiptA + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            content = rs.getString(1);
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+    public static List<String> GetReferenceNos()
     {
         List<String> contents = new ArrayList<>();
         try {
@@ -182,13 +289,47 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getString(1));
 
+            stmt.close();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add("");
+
         return contents;
     }
 
-    public static List<String> GetTypeOfLoan ()
+    public static List<String> GetTypeOfLoan (String contentUUID)
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + typeOfLoanNo + " " +
+                            "FROM " + LoansReceivableA + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (contents.size() == 0)
+            contents.add("");
+
+        return contents;
+    }
+
+    public static List<String> GetTypeOfLoans ()
     {
         List<String> contents = new ArrayList<>();
         try {
@@ -202,9 +343,42 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getString(1));
 
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add("");
+
+        return contents;
+    }
+
+    public static List<String> GetAccountNo (String contentUUID, String accountTitle)
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + accountNo + " " +
+                            "FROM " + accountTitle + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (contents.size() == 0)
+            contents.add("");
+
         return contents;
     }
 
@@ -222,9 +396,44 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getString(1));
 
+            stmt.close();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add("");
+
+        return contents;
+    }
+
+    public static List<Float> GetCredit (String contentUUID, String accountTitle)
+    {
+        List<Float> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + credit + " " +
+                            "FROM " + accountTitle + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getFloat(1));
+
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (contents.size() == 0)
+            contents.add(0f);
+
         return contents;
     }
 
@@ -242,9 +451,44 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getFloat(1));
 
+            stmt.close();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add(0f);
+
+        return contents;
+    }
+
+    public static List<Float> GetDebit (String contentUUID, String accountTitle)
+    {
+        List<Float> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT " + debit + " " +
+                            "FROM " + accountTitle + " " +
+                            "WHERE " + uuid  + " = " + "\"" + contentUUID + "\""  + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+                contents.add(rs.getFloat(1));
+
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (contents.size() == 0)
+            contents.add(0f);
+
         return contents;
     }
 
@@ -262,9 +506,16 @@ public class DatabaseHandler extends FillForm
             while (rs.next())
                 contents.add(rs.getFloat(1));
 
+            stmt.close();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (contents.size() == 0)
+            contents.add(0f);
+
         return contents;
     }
 
@@ -280,6 +531,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + particularData + "\""  + ", " +
                     "\"" + referenceNoData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -297,6 +550,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + debitData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -315,6 +570,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + accountNoData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -332,6 +589,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + accountNoData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -349,6 +608,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + accountNoData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -366,6 +627,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + accountNoData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -384,6 +647,8 @@ public class DatabaseHandler extends FillForm
                     "\"" + debitData + "\""  + ", " +
                     "\"" + creditData + "\""  + ");";
             stmt.execute(sql);
+            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
