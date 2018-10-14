@@ -34,7 +34,7 @@ public class Credit
         GridPane.setConstraints(accountTitleText, 0, 1);
 
         accountTitleBox = new ComboBox();
-        accountTitleBox.getItems().addAll(CreditTitles.GetTitles());
+        accountTitleBox.getItems().addAll(CreditTitles.GetAll());
         accountTitleBox.getSelectionModel().selectFirst();
 
         layout = new VBox(20);

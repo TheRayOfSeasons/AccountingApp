@@ -11,9 +11,7 @@ public class CashRecieptAEntry
         accountNoSD,
         accountNoTD,
         accountNoII,
-        accountNoSA;
-
-    private float
+        accountNoSA,
         debitCOH,
         debitSA,
         creditCOH,
@@ -23,10 +21,31 @@ public class CashRecieptAEntry
         creditII,
         creditSA;
 
+    public CashRecieptAEntry(String date, String particular, String referenceNo)
+    {
+        this.date = date;
+        this.particular = particular;
+        this.referenceNo = referenceNo;
+        this.typeOfLoanLR = "";
+        this.accountNoLR = "";
+        this.accountNoSD = "";
+        this.accountNoTD = "";
+        this.accountNoII = "";
+        this.accountNoSA = "";
+        this.debitCOH = "";
+        this.debitSA = "";
+        this.creditCOH = "";
+        this.creditLR = "";
+        this.creditSD = "";
+        this.creditTD = "";
+        this.creditII = "";
+        this.creditSA = "";
+    }
+
     public CashRecieptAEntry(
             String date, String particular, String referenceNo, String typeOfLoanLR, String accountNoLR, String accountNoSD,
-            String accountNoTD, String accountNoII, String accountNoSA, float debitCOH, float debitSA,
-            float creditCOH, float creditLR, float creditSD, float creditTD, float creditII, float creditSA)
+            String accountNoTD, String accountNoII, String accountNoSA, String debitCOH, String debitSA,
+            String creditCOH, String creditLR, String creditSD, String creditTD, String creditII, String creditSA)
     {
         this.date = date;
         this.particular = particular;
@@ -81,35 +100,35 @@ public class CashRecieptAEntry
         this.accountNoSA = accountNoSA;
     }
 
-    public void setDebitCOH(float debitCOH) {
+    public void setDebitCOH(String debitCOH) {
         this.debitCOH = debitCOH;
     }
 
-    public void setDebitSA(float debitSA) {
+    public void setDebitSA(String debitSA) {
         this.debitSA = debitSA;
     }
 
-    public void setCreditCOH(float creditCOH) {
+    public void setCreditCOH(String creditCOH) {
         this.creditCOH = creditCOH;
     }
 
-    public void setCreditLR(float creditLR) {
+    public void setCreditLR(String creditLR) {
         this.creditLR = creditLR;
     }
 
-    public void setCreditSD(float creditSD) {
+    public void setCreditSD(String creditSD) {
         this.creditSD = creditSD;
     }
 
-    public void setCreditTD(float creditTD) {
+    public void setCreditTD(String creditTD) {
         this.creditTD = creditTD;
     }
 
-    public void setCreditII(float creditII) {
+    public void setCreditII(String creditII) {
         this.creditII = creditII;
     }
 
-    public void setCreditSA(float creditSA) { this.creditSA = creditSA; }
+    public void setCreditSA(String creditSA) { this.creditSA = creditSA; }
 
     public String getDate() {
         return date;
@@ -145,33 +164,33 @@ public class CashRecieptAEntry
         return accountNoSA;
     }
 
-    public float getDebitCOH() {
+    public String getDebitCOH() {
         return debitCOH;
     }
 
-    public float getDebitSA() {
+    public String getDebitSA() {
         return debitSA;
     }
 
-    public float getCreditCOH() {
+    public String getCreditCOH() {
         return creditCOH;
     }
 
-    public float getCreditLR() {
+    public String getCreditLR() {
         return creditLR;
     }
 
-    public float getCreditSD() {
+    public String getCreditSD() {
         return creditSD;
     }
 
-    public float getCreditTD() {
+    public String getCreditTD() {
         return creditTD;
     }
 
-    public float getCreditII() {
+    public String getCreditII() {
         return creditII;
     }
 
-    public float getCreditSA() { return creditSA; }
+    public String getCreditSA() { return creditSA; }
 }

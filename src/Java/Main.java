@@ -17,9 +17,6 @@ public class Main extends Application
         stage = primaryStage;
         Events.stage = primaryStage;
         DatabaseHandler.InitiateDatabase();
-        DatabaseHandler.AddDataINTINCA("101", "120", 1000);
-        DatabaseHandler.AddDataSavingsDepositA("101", "120", 1000);
-        DatabaseHandler.AddDataTimeDepositA("101", "120", 1000);
         primaryStage.setTitle("Cash Register");
         primaryStage.setScene(Scenes.MainMenuLayout());
         primaryStage.show();

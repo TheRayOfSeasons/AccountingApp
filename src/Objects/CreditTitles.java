@@ -10,7 +10,7 @@ public class CreditTitles
             INT_INC = "INT_INC",
             Sundry_Accounts = "Sundry_Accounts";
 
-    public static String[] GetTitles ()
+    public static String[] GetAll()
     {
         return new String[]
                 {

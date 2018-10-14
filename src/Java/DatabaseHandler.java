@@ -161,6 +161,35 @@ public class DatabaseHandler extends FillForm
         return contents;
     }
 
+    public static int GetSimilarUUIDCount (String contentUUID)
+    {
+        List<String> contents = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT DISTINCT " + uuid + " " +
+                    "FROM " + SundryAccountsA + ";" +
+                    "WHERE " + uuid + " = " + "\"" + contentUUID + "\"" + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println(sql);
+
+            while (rs.next())
+                contents.add(rs.getString(1));
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < contents.size(); i++)
+            System.out.println(contents.get(i));
+
+        return contents.size();
+    }
+
     public static String GetDate (String contentUUID)
     {
         String content = "";
@@ -409,9 +438,9 @@ public class DatabaseHandler extends FillForm
         return contents;
     }
 
-    public static List<Float> GetCredit (String contentUUID, String accountTitle)
+    public static List<String> GetCredit (String contentUUID, String accountTitle)
     {
-        List<Float> contents = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             String sql =
@@ -422,7 +451,7 @@ public class DatabaseHandler extends FillForm
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
-                contents.add(rs.getFloat(1));
+                contents.add(rs.getString(1));
 
             stmt.close();
 
@@ -432,14 +461,14 @@ public class DatabaseHandler extends FillForm
         }
 
         if (contents.size() == 0)
-            contents.add(0f);
+            contents.add("");
 
         return contents;
     }
 
-    public static List<Float> GetCredits(String accountTitle)
+    public static List<String> GetCredits(String accountTitle)
     {
-        List<Float> contents = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             String sql =
@@ -449,7 +478,7 @@ public class DatabaseHandler extends FillForm
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
-                contents.add(rs.getFloat(1));
+                contents.add(rs.getString(1));
 
             stmt.close();
 
@@ -459,14 +488,14 @@ public class DatabaseHandler extends FillForm
         }
 
         if (contents.size() == 0)
-            contents.add(0f);
+            contents.add("");
 
         return contents;
     }
 
-    public static List<Float> GetDebit (String contentUUID, String accountTitle)
+    public static List<String> GetDebit (String contentUUID, String accountTitle)
     {
-        List<Float> contents = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             String sql =
@@ -477,7 +506,7 @@ public class DatabaseHandler extends FillForm
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
-                contents.add(rs.getFloat(1));
+                contents.add(rs.getString(1));
 
             stmt.close();
 
@@ -487,14 +516,14 @@ public class DatabaseHandler extends FillForm
         }
 
         if (contents.size() == 0)
-            contents.add(0f);
+            contents.add("");
 
         return contents;
     }
 
-    public static List<Float> GetDebits (String accountTitle)
+    public static List<String> GetDebits (String accountTitle)
     {
-        List<Float> contents = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             String sql =
@@ -504,7 +533,7 @@ public class DatabaseHandler extends FillForm
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next())
-                contents.add(rs.getFloat(1));
+                contents.add(rs.getString(1));
 
             stmt.close();
 
@@ -514,7 +543,7 @@ public class DatabaseHandler extends FillForm
         }
 
         if (contents.size() == 0)
-            contents.add(0f);
+            contents.add("");
 
         return contents;
     }
