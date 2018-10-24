@@ -152,9 +152,7 @@ public class CashRecieptAEntry
         return accountNoSD;
     }
 
-    public String getAccountNoTD() {
-        return accountNoTD;
-    }
+    public String getAccountNoTD() { return accountNoTD; }
 
     public String getAccountNoII() {
         return accountNoII;

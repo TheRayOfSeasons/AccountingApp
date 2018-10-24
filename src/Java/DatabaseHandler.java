@@ -139,7 +139,7 @@ public class DatabaseHandler extends FillForm
         }
     }
 
-    public static List<String> GetUUID ()
+    public static List<String> GetAllUUID()
     {
         List<String> contents = new ArrayList<>();
         try {
@@ -158,6 +158,32 @@ public class DatabaseHandler extends FillForm
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return contents;
+    }
+
+    public static String GetUUID (String dateData, String particularData, String referenceNoData)
+    {
+        String contents = "";
+        try {
+            Statement stmt = conn.createStatement();
+            String sql =
+                    "SELECT DISTINCT " + uuid + " " +
+                            "FROM " + CashReceiptA  + " " +
+                            "WHERE " + date + " = " + "\"" + dateData + "\"" + " AND " +
+                            particular + " = " + "\"" + particularData + "\"" + " AND " +
+                            referenceNo + " = " + "\"" + referenceNoData + "\"" + ";";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println(sql);
+            contents = rs.getString(1);
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return contents;
     }
 
@@ -183,9 +209,6 @@ public class DatabaseHandler extends FillForm
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        for (int i = 0; i < contents.size(); i++)
-            System.out.println(contents.get(i));
 
         return contents.size();
     }
